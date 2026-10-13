@@ -1,0 +1,22 @@
+{
+  "name": "fakecheck-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:base-sepolia": "hardhat run scripts/deploy.js --network baseSepolia",
+    "export-abi": "hardhat run scripts/export-abi.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.2",
+    "hardhat": "^2.29.1",
+    "solc": "^0.8.24"
+  },
+  "private": "true"
+}

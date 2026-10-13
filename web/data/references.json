@@ -1,0 +1,41 @@
+{
+  "_readme": "Reference library of genuine packs. The entries below are DEMO placeholders (made-up manufacturer and NAFDAC numbers) so the app runs end to end. Replace them with real products you have verified against the NAFDAC Greenbook and a genuine pack bought from a licensed pharmacy. Put reference photos in public/references/ and list their file names in referenceImages.",
+  "products": [
+    {
+      "id": "demo-al-80-480",
+      "name": "Artemether/Lumefantrine 80/480mg",
+      "keywords": ["ARTEMETHER", "LUMEFANTRINE"],
+      "manufacturer": "Demo Pharma Ltd",
+      "nafdacNo": "A4-0001",
+      "batchPattern": "^[A-Z]{2}\\d{4,6}$",
+      "maxShelfLifeMonths": 36,
+      "packagingNotes": "Blue and white carton. Batch printed as two letters followed by 4-6 digits. Dates printed as MM/YYYY.",
+      "referenceImages": [],
+      "demo": true
+    },
+    {
+      "id": "demo-amox-500",
+      "name": "Amoxicillin 500mg capsules",
+      "keywords": ["AMOXICILLIN", "AMOXYCILLIN"],
+      "manufacturer": "Demo Pharma Ltd",
+      "nafdacNo": "A4-0002",
+      "batchPattern": "^\\d{6,8}$",
+      "maxShelfLifeMonths": 36,
+      "packagingNotes": "Red and yellow capsules in a white carton. Batch is digits only.",
+      "referenceImages": [],
+      "demo": true
+    },
+    {
+      "id": "demo-paracetamol-500",
+      "name": "Paracetamol 500mg tablets",
+      "keywords": ["PARACETAMOL", "ACETAMINOPHEN"],
+      "manufacturer": "Demo Pharma Ltd",
+      "nafdacNo": "04-0003",
+      "batchPattern": "^[A-Z]\\d{5}$",
+      "maxShelfLifeMonths": 48,
+      "packagingNotes": "Green and white carton. Batch is one letter followed by 5 digits.",
+      "referenceImages": [],
+      "demo": true
+    }
+  ]
+}
