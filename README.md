@@ -9,6 +9,8 @@ Point your phone camera at a medicine pack. CheckAm:
 
 People without crypto wallets can still report: the server relays their report onchain.
 
+**Demo video:** [docs/checkam-demo.mp4](docs/checkam-demo.mp4) (live scan, a fake pack flagged, a report filed onchain).
+
 > CheckAm flags warning signs. It **never** says a drug is genuine, because a camera can't see what's inside a tablet.
 
 ```
