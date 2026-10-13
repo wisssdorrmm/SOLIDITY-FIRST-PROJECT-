@@ -17,7 +17,9 @@ const MAX_TEXTS = 6;
 type Form = { nafdacNo: string; batchNo: string; mfd: string; exp: string; drugName: string };
 
 function toForm(f: PackFields, ocrText: string): Form {
-  const ref = findByNafdac(f.nafdacNo) ?? findByText(ocrText)[0];
+  // Suggest a name only from what is printed on the pack. Filling it in from the
+  // NAFDAC number would hide a number borrowed from another product.
+  const ref = findByText(ocrText)[0];
   return {
     nafdacNo: f.nafdacNo ?? "",
     batchNo: f.batchNo ?? "",

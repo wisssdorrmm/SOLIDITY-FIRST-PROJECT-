@@ -109,3 +109,12 @@ test("missing fields mean caution, not clear", () => {
   const r = runChecks({ fields: parsePackText("some blurry text"), ocrText: "some blurry text", now });
   assert.equal(r.verdict, "caution");
 });
+
+import { findDarkBands } from "./bands.ts";
+
+test("finds dark banners but not a dark photo", () => {
+  // Banner rows are mostly dark even where white letters cross them.
+  const rows = [...Array(100).fill(0.6), ...Array(400).fill(0.05), ...Array(10).fill(0.9), ...Array(200).fill(0.05)];
+  assert.deepEqual(findDarkBands(rows), [{ top: 0, bottom: 100 }]);
+  assert.deepEqual(findDarkBands(Array(500).fill(0.95)), []);
+});

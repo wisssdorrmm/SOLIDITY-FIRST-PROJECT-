@@ -1,6 +1,7 @@
 // Browser-side OCR. Runs on the phone, so nothing leaves the device unless the user reports.
 
 import type { Worker } from "tesseract.js";
+import { findDarkBands } from "./bands.ts";
 
 let workerPromise: Promise<Worker> | undefined;
 
@@ -63,10 +64,41 @@ export function preprocessForOcr(src: HTMLCanvasElement): HTMLCanvasElement {
   return canvas;
 }
 
+/** Fraction of dark pixels in each row of a greyscale canvas. */
+function rowDarkShare(canvas: HTMLCanvasElement): Float32Array {
+  const { width, height } = canvas;
+  const d = canvas.getContext("2d")!.getImageData(0, 0, width, height).data;
+  const share = new Float32Array(height);
+  for (let y = 0; y < height; y++) {
+    let dark = 0;
+    for (let x = 0; x < width; x++) if (d[(y * width + x) * 4] < 128) dark++;
+    share[y] = dark / width;
+  }
+  return share;
+}
+
+function crop(src: HTMLCanvasElement, top: number, bottom: number): HTMLCanvasElement {
+  const pad = 6;
+  const y0 = Math.max(0, top - pad);
+  const h = Math.min(src.height, bottom + pad) - y0;
+  const canvas = document.createElement("canvas");
+  canvas.width = src.width;
+  canvas.height = h;
+  canvas.getContext("2d")!.drawImage(src, 0, y0, src.width, h, 0, 0, src.width, h);
+  return canvas;
+}
+
 export async function recognize(canvas: HTMLCanvasElement): Promise<string> {
   const worker = await getOcrWorker();
-  const { data } = await worker.recognize(preprocessForOcr(canvas));
-  return data.text;
+  const prepared = preprocessForOcr(canvas);
+  const { data } = await worker.recognize(prepared);
+  const texts = [data.text];
+  // Light text on dark banners (often the product name) needs its own pass.
+  for (const band of findDarkBands(rowDarkShare(prepared))) {
+    const { data: bandData } = await worker.recognize(crop(prepared, band.top, band.bottom));
+    if (bandData.text.trim()) texts.push(bandData.text);
+  }
+  return texts.join("\n");
 }
 
 /** SHA-256 of the photo bytes: the on-chain fingerprint of the evidence. */
